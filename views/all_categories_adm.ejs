@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" href="/favicon.svg" />
+    <title>
+        Compiltah Shop
+    </title>
+
+</head>
+
+<body>
+    <%- include("partials/header.ejs") %>
+    <div class="adm-input">
+        <p>Adm pass-key:</p>
+        <input form="adm-actions" type="text" name="passKey">
+    </div>
+        <table>
+            <caption>
+                Categories list
+            </caption>
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+
+
+                <% categories.map((category)=> { %>
+
+                    <tr>
+                        <td>
+                            <%= category.id %>
+                        </td>
+                        <td>
+                            <%= category.name %>
+                        </td>
+                        <td>
+                            <form id="adm-actions" action="/categories/remove/<%= category.id %>" method="POST">
+                                <input type="submit" value="Delete">
+                            </form>
+                        </td>
+                    </tr>
+
+                    <% }) %>
+            </tbody>
+        </table>
+
+
+        <script>
+        </script>
+</body>
+
+</html>

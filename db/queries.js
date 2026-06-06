@@ -5,6 +5,20 @@ async function queryAllCategories() {
     return rows;
 }
 
+async function deleteCategoryById(id) {
+    try {
+        const result = await pool.query("DELETE FROM categories WHERE id=$1", [id]);
+
+        if (result.rowCount > 0) {
+            console.log('Delete successful!');
+        } else {
+            console.log('Query finished, but no rows were deleted.');
+        }
+    } catch (error) {
+        console.error('Delete failed due to database error:', error.message);
+    }
+}
+
 async function queryAllProducts() {
     const { rows } = await pool.query("SELECT * FROM products");
     return rows;
@@ -50,10 +64,11 @@ async function deleteProductById(id) {
 
 
 export {
-    queryAllProducts,
     queryAllCategories,
+    deleteCategoryById,
+    queryAllProducts,
     queryAllProductsFromCategoryId,
     insertNewProduct,
     deleteProductById,
-    queryAllProductsWithCategories
+    queryAllProductsWithCategories,
 }

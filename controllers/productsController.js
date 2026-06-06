@@ -27,7 +27,6 @@ async function addNewProductPost(req, res) {
 }
 
 async function removeProductById(req, res) {
-    console.log(req.body)
     await deleteProductById(req.params.id)
     res.redirect("/adm/products");
 }

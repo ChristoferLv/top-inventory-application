@@ -17,7 +17,7 @@ app.set("view engine", "ejs");
 app.use("/", productsRouter)
 app.use("/products", productsRouter)
 app.use("/adm", admRouter)
-app.get("/categories", categoriesRouter)
+app.use("/categories", categoriesRouter)
 
 app.listen(PORT, (error) => {
     if (error) {
