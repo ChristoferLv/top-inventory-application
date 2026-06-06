@@ -1,5 +1,6 @@
 import { join } from 'node:path';
 import express from "express";
+import productsRouter from './routes/productsRoutes.js';
 
 const dir = import.meta.dirname;
 const PORT = 3000;
@@ -11,6 +12,7 @@ app.use(express.static(assetsPath));
 app.set("views", join(dir, "views"));
 app.set("view engine", "ejs");
 
+app.get("/", productsRouter)
 
 app.listen(PORT, (error) => {
     if (error) {
