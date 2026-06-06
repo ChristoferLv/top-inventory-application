@@ -15,9 +15,24 @@ async function queryAllProductsFromCategoryId(id) {
     return rows;
 }
 
+async function insertNewProduct(name, price, amount, category) {
+    try {
+        const result = await pool.query("INSERT INTO products (name, price, amount, category_ID) VALUES ($1, $2, $3, $4)", [name, price, amount, category]);
+
+        if (result.rowCount > 0) {
+            console.log('Insert successful!');
+        } else {
+            console.log('Query finished, but no rows were inserted.');
+        }
+    } catch (error) {
+        console.error('Insert failed due to database error:', error.message);
+    }
+}
+
 
 export {
     queryAllProducts,
     queryAllCategories,
-    queryAllProductsFromCategoryId
+    queryAllProductsFromCategoryId,
+    insertNewProduct
 }

@@ -14,7 +14,7 @@ app.set("views", join(dir, "views"));
 app.set("view engine", "ejs");
 
 app.use("/", productsRouter)
-app.use("/products/", categoriesRouter)
+app.use("/products/", productsRouter)
 app.get("/categories", categoriesRouter)
 
 app.listen(PORT, (error) => {
