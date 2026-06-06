@@ -14,22 +14,32 @@
 
 <body>
     <%- include("partials/header.ejs") %>
+        <div class="content">
+            <% products.map((product)=> { %>
 
-    <% products.map((product)=> { %>
-
-        <div id=<%=product.id %> class="product_item">
-            ID: <%= product.id %>
-                <%= product.name %>
-                    $<%= product.price %>
+                <div id=<%=product.id %> class="product-item">
+                    <p>
+                        ID: <%= product.id %>
+                    </p>
+                    <p>
+                        <%= product.name %>
+                    </p>
+                    <p>
+                        $<%= product.price %>
+                    </p>
+                    <p>
                         Amount:<%= product.amount %>
-                            <%= product.category_id %>
+                    </p>
+                    <p>
+                        <%= product.category_id %>
+                    </p>
+                </div>
+
+                <% }) %>
         </div>
 
-        <% }) %>
-
-
-            <script>
-            </script>
+        <script>
+        </script>
 </body>
 
 </html>
