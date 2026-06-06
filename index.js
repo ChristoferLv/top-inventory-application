@@ -2,6 +2,7 @@ import { join } from 'node:path';
 import express from "express";
 import productsRouter from './routes/productsRoutes.js';
 import categoriesRouter from './routes/categoriesRoutes.js';
+import admRouter from './routes/admRoutes.js';
 
 const dir = import.meta.dirname;
 const PORT = 3000;
@@ -14,7 +15,8 @@ app.set("views", join(dir, "views"));
 app.set("view engine", "ejs");
 
 app.use("/", productsRouter)
-app.use("/products/", productsRouter)
+app.use("/products", productsRouter)
+app.use("/adm", admRouter)
 app.get("/categories", categoriesRouter)
 
 app.listen(PORT, (error) => {
