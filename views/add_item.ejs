@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,23 +8,31 @@
     <link rel="icon" href="/favicon.svg" />
     <title>Add Item</title>
 </head>
+
 <body>
     <%- include("partials/header.ejs") %>
 
-    <form action="/products/add-product" method="POST">
-        <label for="name">Product name</label>
-        <input type="text" name="name" id="name">
+        <form action="/products/add-product" method="POST">
+            <label for="name">Product name</label>
+            <input type="text" name="name" id="name">
 
-        <label for="price">Price</label>
-        <input type="text" name="price" id="price">
-        
-        <label for="amount">Amount</label>
-        <input type="text" name="amount" id="amount">
+            <label for="price">Price</label>
+            <input type="text" name="price" id="price">
 
-        <label for="category">Category</label>
-        <input type="text" name="category" id="category">
-        
-        <input type="submit" value="Add">
-    </form>
+            <label for="amount">Amount</label>
+            <input type="text" name="amount" id="amount">
+
+            <label for="category">Category</label>
+            <select id="volume" name="category">
+                <% categories.map((category)=> { %>
+                    <option value="<%=category.id %>">
+                        <%=category.name %>
+                    </option>
+                    <% }) %>
+            </select>
+
+            <input type="submit" value="Add">
+        </form>
 </body>
+
 </html>
