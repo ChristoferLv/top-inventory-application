@@ -1,9 +1,9 @@
 // routes/usersRouter.js
 import { Router } from "express";
-import { getAllProducts } from "../controllers/productsController.js";
+import { buildMainPage, getAllProducts } from "../controllers/productsController.js";
 
 const productsRouter = Router();
 
-productsRouter.get("/", getAllProducts);
+productsRouter.get("/", buildMainPage);
 
 export default productsRouter;

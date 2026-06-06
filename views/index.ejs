@@ -13,23 +13,23 @@
 </head>
 
 <body>
-    <header>Compiltah Shop</header>
-    <ul>
-        <% products.map((product)=> { %>
-            <li>
-                <div id=<%=product.id %> class="product_item">
-                    <%= product.id %>
-                        <%= product.name %>
-                            <%= product.price %>
-                                <%= product.amount %>
-                                    <%= product.category_id %>
-                </div>
-            </li>
-            <% }) %>
-    </ul>
+    <%- include("partials/header.ejs") %>
 
-    <script>
-    </script>
+    <% products.map((product)=> { %>
+
+        <div id=<%=product.id %> class="product_item">
+            ID: <%= product.id %>
+                <%= product.name %>
+                    $<%= product.price %>
+                        Amount:<%= product.amount %>
+                            <%= product.category_id %>
+        </div>
+
+        <% }) %>
+
+
+            <script>
+            </script>
 </body>
 
 </html>

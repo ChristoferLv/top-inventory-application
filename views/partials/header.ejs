@@ -1,0 +1,15 @@
+<header>
+    <a href="/">
+        <p>Compiltah Shop</p>
+    </a>
+    <div class="categories-container">
+        <% categories.map((category)=> { %>
+
+            <a href="/products/<%-category.id%>">
+                <div id=<%=category.id %> class="category-item">
+                    <%= category.name %>
+                </div>
+            </a>
+            <% }) %>
+    </div>
+</header>
