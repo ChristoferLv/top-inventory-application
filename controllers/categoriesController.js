@@ -21,11 +21,22 @@ const removeCategoryById = [validateAdmActions,
             return res.status(400).render("all_categories_adm", {
                 categories: await queryAllCategories(),
                 errors: errors.array(),
-                admError:true
+                admError: true
             });
         }
-
-        await deleteCategoryById(req.params.id)
+        try {
+            await deleteCategoryById(req.params.id)
+        } catch (error) {
+            if (error.code === '23503') {
+                return res.status(400).render("all_categories_adm", {
+                    categories: await queryAllCategories(),
+                    errors: errors.array(),
+                    dbError: true
+                });
+            }else{
+                console.log(error)
+            }
+        }
         res.redirect("/adm/categories");
     }
 ]
@@ -36,7 +47,7 @@ const removeCategoryById = [validateAdmActions,
 //     res.redirect("/adm/categories");
 // }
 
-const addNewCategoryPost = [validateNewCategory, 
+const addNewCategoryPost = [validateNewCategory,
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -61,7 +72,7 @@ const updateCategoryByIdPost = [validateNewCategory, validateAdmActions,
             return res.status(400).render("all_categories_adm", {
                 recoveredValues: JSON.stringify({ id: req.params.id, value: req.body.name }),
                 categories: await queryAllCategories(),
-                admPass:req.body.passKey,
+                admPass: req.body.passKey,
                 errors: errors.array(),
             });
         }

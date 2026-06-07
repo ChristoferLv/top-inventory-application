@@ -201,6 +201,10 @@ dialog button{
     display: none;
 }
 
+.dbError{
+    margin-left: 15px;
+}
+
 /* .new-item-content{
     display: flex;
     justify-content: center;

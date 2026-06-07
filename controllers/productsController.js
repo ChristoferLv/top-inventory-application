@@ -83,6 +83,7 @@ const updateProductByIdPost = [validateNewProduct, validateAdmActions,
 
 const removeProductById = [validateAdmActions, 
     async (req, res) => {
+        console.log(req.body)
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             const [categories, products] = await Promise.all([queryAllCategories(), queryAllProductsWithCategories()]);

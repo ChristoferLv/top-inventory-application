@@ -144,11 +144,13 @@
 
                                     const passKeyInput = document.querySelector("#passKeyInput");
                                     const passKeyInputHiddenUp = document.querySelector("#passKeyInputHiddenUpdate");
-                                    const passKeyInputHiddenDel = document.querySelector("#passKeyInputHiddenDelete");
+                                    const passKeyInputHiddenDel = document.querySelectorAll("#passKeyInputHiddenDelete");
 
                                     passKeyInput.addEventListener("input", () => {
                                         passKeyInputHiddenUp.value = passKeyInput.value;
-                                        passKeyInputHiddenDel.value = passKeyInput.value;
+                                        passKeyInputHiddenDel.forEach(input => {
+                                            input.value = passKeyInput.value;
+                                        });
                                     })
 
                                     let recoveredFromUpdate = null;

@@ -43,6 +43,7 @@ async function deleteCategoryById(id) {
             console.log('Query finished, but no rows were deleted.');
         }
     } catch (error) {
+        if (error.code === '23503') throw error;
         console.error('Delete failed due to database error:', error.message);
     }
 }

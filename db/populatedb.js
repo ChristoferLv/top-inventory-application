@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS products (
   price NUMERIC,
   amount INTEGER,
   category_ID INTEGER,
-  FOREIGN KEY (category_ID) REFERENCES categories (id) ON DELETE CASCADE
+  FOREIGN KEY (category_ID) REFERENCES categories (id) 
 );
 
 INSERT INTO categories (name) VALUES 
