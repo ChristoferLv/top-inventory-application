@@ -18,52 +18,53 @@
             <p>Adm pass-key:</p>
             <input form="adm-actions" type="text" name="passKey">
         </div>
-        <div class="new-form-container">
-            <p>Add new Category</p>
-            <form action="/categories/add-category" method="POST">
-                <label for="name">Category name</label>
-                <input type="text" name="name" id="name">
+        <%- include("partials/errors.ejs") %>
+            <div class="new-form-container">
+                <p>Add new Category</p>
+                <form action="/categories/add-category" method="POST">
+                    <label for="name">Category name</label>
+                    <input type="text" name="name" id="name" value=<%= locals.nameValue??"" %>>
 
-                <input type="submit" value="Add">
-            </form>
-        </div>
-        <table>
-            <caption>
-                Categories list
-            </caption>
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-
-
-                <% categories.map((category)=> { %>
-
+                    <input type="submit" value="Add">
+                </form>
+            </div>
+            <table>
+                <caption>
+                    Categories list
+                </caption>
+                <thead>
                     <tr>
-                        <td>
-                            <%= category.id %>
-                        </td>
-                        <td>
-                            <%= category.name %>
-                        </td>
-                        <td>
-                            <form id="adm-actions" action="/categories/remove/<%= category.id %>" method="POST">
-                                <input type="submit" value="Delete">
-                            </form>
-                        </td>
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Actions</th>
                     </tr>
-
-                    <% }) %>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
 
 
-        <script>
-        </script>
+                    <% categories.map((category)=> { %>
+
+                        <tr>
+                            <td>
+                                <%= category.id %>
+                            </td>
+                            <td>
+                                <%= category.name %>
+                            </td>
+                            <td>
+                                <form id="adm-actions" action="/categories/remove/<%= category.id %>" method="POST">
+                                    <input type="submit" value="Delete">
+                                </form>
+                            </td>
+                        </tr>
+
+                        <% }) %>
+                </tbody>
+            </table>
+
+
+            <script>
+            </script>
 </body>
 
 </html>
