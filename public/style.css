@@ -197,6 +197,10 @@ dialog button{
     gap: 0 5px;
 }
 
+.hidden{
+    display: none;
+}
+
 /* .new-item-content{
     display: flex;
     justify-content: center;

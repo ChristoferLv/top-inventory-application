@@ -5,16 +5,37 @@ const validateNewCategory = [
     body("name").trim().isAlpha().withMessage("Category name must have only letters").isLength({ max: 30 }).withMessage("Maximum size for category name is 30")
 ];
 
+const validateAdmActions = [
+    body("passKey").equals("adm123").withMessage("Adm password is incorrect.")
+];
+
 async function getAllCategories(req, res) {
     res.render("index", { categories: await queryAllCategories() });
 }
 
-async function removeCategoryById(req, res) {
-    await deleteCategoryById(req.params.id)
-    res.redirect("/adm/categories");
-}
+const removeCategoryById = [validateAdmActions,
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).render("all_categories_adm", {
+                categories: await queryAllCategories(),
+                errors: errors.array(),
+                admError:true
+            });
+        }
 
-const addNewCategoryPost = [validateNewCategory,
+        await deleteCategoryById(req.params.id)
+        res.redirect("/adm/categories");
+    }
+]
+
+// async function removeCategoryById(req, res) {
+//     console.log("delete", req.body)
+//     await deleteCategoryById(req.params.id)
+//     res.redirect("/adm/categories");
+// }
+
+const addNewCategoryPost = [validateNewCategory, 
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -31,14 +52,15 @@ const addNewCategoryPost = [validateNewCategory,
     }
 ];
 
-const updateCategoryByIdPost = [validateNewCategory,
+const updateCategoryByIdPost = [validateNewCategory, validateAdmActions,
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            console.log({id:req.params.id, value:req.body.name})
+            console.log({ id: req.params.id, value: req.body.name })
             return res.status(400).render("all_categories_adm", {
-                recoveredValues:JSON.stringify({id:req.params.id, value:req.body.name}),
+                recoveredValues: JSON.stringify({ id: req.params.id, value: req.body.name }),
                 categories: await queryAllCategories(),
+                admPass:req.body.passKey,
                 errors: errors.array(),
             });
         }

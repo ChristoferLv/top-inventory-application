@@ -14,98 +14,119 @@
 
 <body>
     <%- include("partials/header.ejs") %>
-        <div class="adm-input">
-            <p>Adm pass-key:</p>
-            <input form="adm-actions" type="text" name="passKey">
-        </div>
-        <% if(!locals.recoveredValues) {%>
+        <% if(locals.admError) {%>
             <%- include("partials/errors.ejs") %>
                 <% } %>
-                    <div class="new-form-container">
-                        <p>Add new Category</p>
-                        <form action="/categories/add-category" method="POST">
-                            <label for="name">Category name</label>
-                            <input type="text" name="name" id="name" value=<%=locals.nameValue??"" %>>
-
-                            <input type="submit" value="Add">
-                        </form>
+                    <div class="adm-input">
+                        <p>Adm pass-key:</p>
+                        <input id="passKeyInput" type="text" name="passKey" value="<%=locals.admPass??"" %>">
                     </div>
-                    <table>
-                        <caption>
-                            Categories list
-                        </caption>
-                        <thead>
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
 
 
-                            <% categories.map((category)=> { %>
 
-                                <tr>
-                                    <td>
-                                        <%= category.id %>
-                                    </td>
-                                    <td>
-                                        <%= category.name %>
-                                    </td>
-                                    <td>
-                                        <div class="tb-actions">
-                                            <form id="adm-actions" action="/categories/remove/<%= category.id %>"
-                                                method="POST">
-                                                <input type="submit" value="Delete">
-                                            </form>
-                                            <button data-id="<%= category.id%>" data-name="<%= category.name%>"
-                                                onclick="showDialog(this.dataset.id, this.dataset.name)">Update</button>
-                                        </div>
-                                    </td>
-                                </tr>
+                    <% if(!locals.recoveredValues && !locals.admError) {%>
+                        <%- include("partials/errors.ejs") %>
+                            <% } %>
+                                <div class="new-form-container">
+                                    <p>Add new Category</p>
+                                    <form action="/categories/add-category" method="POST">
+                                        <label for="name">Category name</label>
+                                        <input type="text" name="name" id="name" value=<%=locals.nameValue??"" %>>
 
-                                <% }) %>
-                        </tbody>
-                    </table>
-
-                    <dialog id="update-category-dialog">
-                        <% if(locals.recoveredValues) { %>
-                            <%- include("partials/errors.ejs") %>
-                                <% } %>
-                                    <form id="updateCategory" method="POST">
-                                        <label for="name">Category Name</label>
-                                        <input id="name" name="name" type="text">
-                                        <input form="updateCategory" type="submit" value="Save">
+                                        <input type="submit" value="Add">
                                     </form>
-                                    <button onclick="closeDialog()">Close</button>
-                    </dialog>
+                                </div>
+                                <table>
+                                    <caption>
+                                        Categories list
+                                    </caption>
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
 
-                    <script>
-                        const myFormDialog = document.getElementById('update-category-dialog');
-                        const updateForm = document.getElementById('updateCategory');
-                        const name = myFormDialog.querySelector("#name");
-                        let recovered = null;
+                                        <% categories.map((category)=> { %>
 
-                        recovered = '<%- locals.recoveredValues %>'
-                        if (recovered) {
-                            recovered = JSON.parse(recovered);
-                            name.value = recovered.value;
-                            updateForm.action = "/categories/update/" + recovered.id;
-                            myFormDialog.showModal();
-                        }
+                                            <tr>
+                                                <td>
+                                                    <%= category.id %>
+                                                </td>
+                                                <td>
+                                                    <%= category.name %>
+                                                </td>
+                                                <td>
+                                                    <div class="tb-actions">
+                                                        <form action="/categories/remove/<%= category.id %>"
+                                                            method="POST">
+                                                            <input id="passKeyInputHiddenDelete" class="hidden"
+                                                                type="text" name="passKey" value="<%=locals.admPass??"" %>">
+                                                            <input type="submit" value="Delete">
+                                                        </form>
+                                                        <button data-id="<%= category.id%>"
+                                                            data-name="<%= category.name%>"
+                                                            onclick="showDialog(this.dataset.id, this.dataset.name)">Update</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
 
-                        function closeDialog() {
-                            myFormDialog.close();
-                        }
+                                            <% }) %>
+                                    </tbody>
+                                </table>
 
-                        function showDialog(id, value) {
-                            updateForm.action = "/categories/update/" + id;
-                            name.value = value;
-                            myFormDialog.showModal();
-                        }
-                    </script>
+                                <dialog id="update-category-dialog">
+                                    <% if(locals.recoveredValues) { %>
+                                        <%- include("partials/errors.ejs") %>
+                                            <% } %>
+                                                <form id="updateCategory" method="POST">
+                                                    <label for="name">Category Name</label>
+                                                    <input id="name" name="name" type="text">
+                                                    <input type="submit" value="Save">
+                                                    <input id="passKeyInputHiddenUpdate" class="hidden" type="text"
+                                                        name="passKey" value=<%=locals.admPass??"" %>>
+                                                </form>
+                                                <button onclick="closeDialog()">Close</button>
+                                </dialog>
+
+
+                                <script>
+                                    const myFormDialog = document.getElementById('update-category-dialog');
+                                    const updateForm = document.getElementById('updateCategory');
+                                    const name = myFormDialog.querySelector("#name");
+
+                                    const passKeyInput = document.querySelector("#passKeyInput");
+                                    const passKeyInputHiddenUp = document.querySelector("#passKeyInputHiddenUpdate");
+                                    const passKeyInputHiddenDel = document.querySelector("#passKeyInputHiddenDelete");
+
+                                    passKeyInput.addEventListener("input", () => {
+                                        passKeyInputHiddenUp.value = passKeyInput.value;
+                                        passKeyInputHiddenDel.value = passKeyInput.value;
+                                    })
+
+                                    let recovered = null;
+
+                                    recovered = '<%- locals.recoveredValues %>'
+                                    if (recovered) {
+                                        recovered = JSON.parse(recovered);
+                                        name.value = recovered.value;
+                                        updateForm.action = "/categories/update/" + recovered.id;
+                                        myFormDialog.showModal();
+                                    }
+
+                                    function closeDialog() {
+                                        myFormDialog.close();
+                                    }
+
+                                    function showDialog(id, value) {
+                                        updateForm.action = "/categories/update/" + id;
+                                        name.value = value;
+                                        myFormDialog.showModal();
+                                    }
+                                </script>
 </body>
 
 </html>
