@@ -8,6 +8,9 @@ productsRouter.get("/", buildMainPage);
 productsRouter.get("/add-product", addNewProductGet);
 productsRouter.post("/add-product", addNewProductPost);
 productsRouter.post("/product/remove/:id", removeProductById);
+productsRouter.post("/product/update/:id", (req, res) => {
+    console.log("update product")
+});
 productsRouter.get("/:id", getProductsFromCategory);
 
 export default productsRouter;

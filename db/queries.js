@@ -1,13 +1,27 @@
 import { default as pool } from "./pools.js";
 
 async function queryAllCategories() {
-    const { rows } = await pool.query("SELECT * FROM categories");
+    const { rows } = await pool.query("SELECT * FROM categories ORDER BY id");
     return rows;
 }
 
 async function insertNewCategory(name) {
     try {
         const result = await pool.query("INSERT INTO categories (name) VALUES ($1)", [name]);
+
+        if (result.rowCount > 0) {
+            console.log('Insert successful!');
+        } else {
+            console.log('Query finished, but no rows were inserted.');
+        }
+    } catch (error) {
+        console.error('Insert failed due to database error:', error.message);
+    }
+}
+
+async function updateCategoryById(id, newName) {
+    try {
+        const result = await pool.query("UPDATE categories SET name=$1 WHERE id=$2" , [newName, id]);
 
         if (result.rowCount > 0) {
             console.log('Insert successful!');
@@ -34,12 +48,12 @@ async function deleteCategoryById(id) {
 }
 
 async function queryAllProducts() {
-    const { rows } = await pool.query("SELECT * FROM products");
+    const { rows } = await pool.query("SELECT * FROM products ORDER BY id");
     return rows;
 }
 
 async function queryAllProductsWithCategories() {
-    const { rows } = await pool.query("SELECT products.*, categories.name as categoryName FROM products JOIN categories ON products.category_ID = categories.id");
+    const { rows } = await pool.query("SELECT products.*, categories.name as categoryName FROM products JOIN categories ON products.category_ID = categories.id ORDER BY products.id");
     return rows;
 }
 
@@ -79,6 +93,7 @@ async function deleteProductById(id) {
 
 export {
     queryAllCategories,
+    updateCategoryById,
     deleteCategoryById,
     queryAllProducts,
     queryAllProductsFromCategoryId,

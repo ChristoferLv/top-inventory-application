@@ -119,6 +119,7 @@ table {
     border: 1px solid #000000;
     margin: 15px;
     background-color: white;
+    table-layout: fixed;
 }
 
 th,
@@ -185,6 +186,15 @@ tr:nth-child(even) {
 
 .show {
     display: block;
+}
+
+dialog button{
+    margin-top: 5px;
+}
+
+.tb-actions{
+    display: flex;
+    gap: 0 5px;
 }
 
 /* .new-item-content{
