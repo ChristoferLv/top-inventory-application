@@ -1,5 +1,6 @@
 body {
     margin: 0;
+    background-color: #f2f3f4;
 }
 
 header {
@@ -47,11 +48,18 @@ header a {
     flex-direction: column;
     max-width: 20vw;
     border: 1px black solid;
-    padding: 5px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 10px;
 }
 
 .product-item p {
     margin: 0;
+}
+
+.product-title{
+    font-size: 20px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .new-form-container,
@@ -61,6 +69,7 @@ header a {
     margin-top: 5px;
     margin-left: 15px;
     border: 1px solid black;
+    background-color: white;
 }
 
 .adm-input p {
@@ -107,8 +116,9 @@ table {
     box-sizing: border-box;
     border-collapse: collapse;
     width: calc(100% - 30px);
-    border: 1px solid #ddd;
+    border: 1px solid #000000;
     margin: 15px;
+    background-color: white;
 }
 
 th,

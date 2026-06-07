@@ -18,20 +18,14 @@
             <% products.map((product)=> { %>
 
                 <div id=<%=product.id %> class="product-item">
-                    <p>
-                        ID: <%= product.id %>
-                    </p>
-                    <p>
+                    <p class="product-title">
                         <%= product.name %>
                     </p>
                     <p>
-                        $<%= product.price %>
+                        Price: $<%= product.price %>
                     </p>
                     <p>
                         Amount:<%= product.amount %>
-                    </p>
-                    <p>
-                        <%= product.category_id %>
                     </p>
                 </div>
 

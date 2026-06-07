@@ -44,7 +44,7 @@ async function queryAllProductsWithCategories() {
 }
 
 async function queryAllProductsFromCategoryId(id) {
-    const { rows } = await pool.query("SELECT * FROM products JOIN categories ON categories.id = category_ID WHERE categories.id=$1", [id]);
+    const { rows } = await pool.query("SELECT products.* FROM products JOIN categories ON categories.id = category_ID WHERE categories.id=$1", [id]);
     return rows;
 }
 
