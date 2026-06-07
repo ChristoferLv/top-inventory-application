@@ -8,6 +8,10 @@ const validateNewProduct = [
     body("category").trim().isInt().withMessage("Category id must be an int")
 ];
 
+const validateAdmActions = [
+    body("passKey").trim().equals("adm123").withMessage("Adm password is incorrect.")
+];
+
 async function buildMainPage(req, res) {
     const [categories, products] = await Promise.all([queryAllCategories(), queryAllProducts()]);
     res.render("index", { categories: categories, products: products });
@@ -52,7 +56,7 @@ const addNewProductPost = [validateNewProduct,
     }
 ];
 
-const updateProductByIdPost = [validateNewProduct,
+const updateProductByIdPost = [validateNewProduct, validateAdmActions,
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -61,6 +65,7 @@ const updateProductByIdPost = [validateNewProduct,
                 recoveredValues: JSON.stringify({ id: req.params.id, name: req.body.name, price: req.body.price, amount: req.body.amount, category: req.body.category }),
                 categories: categories,
                 products: products,
+                admPass:req.body.passKey,
                 errors: errors.array(),
             });
         }
@@ -76,10 +81,28 @@ const updateProductByIdPost = [validateNewProduct,
 //     res.redirect("/adm/products");
 // }
 
-async function removeProductById(req, res) {
-    await deleteProductById(req.params.id)
-    res.redirect("/adm/products");
-}
+const removeProductById = [validateAdmActions, 
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            const [categories, products] = await Promise.all([queryAllCategories(), queryAllProductsWithCategories()]);
+            return res.status(400).render("all_items_adm", {
+                categories: await queryAllCategories(),
+                products: products,
+                errors: errors.array(),
+                admError:true,
+            });
+        }
+
+        await deleteProductById(req.params.id)
+        res.redirect("/adm/products");
+    }
+]
+
+// async function removeProductById(req, res) {
+//     await deleteProductById(req.params.id)
+//     res.redirect("/adm/products");
+// }
 
 
 export {

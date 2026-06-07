@@ -6,7 +6,7 @@ const validateNewCategory = [
 ];
 
 const validateAdmActions = [
-    body("passKey").equals("adm123").withMessage("Adm password is incorrect.")
+    body("passKey").trim().equals("adm123").withMessage("Adm password is incorrect.")
 ];
 
 async function getAllCategories(req, res) {
@@ -15,6 +15,7 @@ async function getAllCategories(req, res) {
 
 const removeCategoryById = [validateAdmActions,
     async (req, res) => {
+        console.log(req.body)
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).render("all_categories_adm", {

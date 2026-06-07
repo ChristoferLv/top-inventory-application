@@ -64,7 +64,8 @@
                                                         <form action="/categories/remove/<%= category.id %>"
                                                             method="POST">
                                                             <input id="passKeyInputHiddenDelete" class="hidden"
-                                                                type="text" name="passKey" value="<%=locals.admPass??"" %>">
+                                                                type="text" name="passKey"
+                                                                value="<%=locals.admPass??"" %>">
                                                             <input type="submit" value="Delete">
                                                         </form>
                                                         <button data-id="<%= category.id%>"
