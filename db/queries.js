@@ -21,7 +21,7 @@ async function insertNewCategory(name) {
 
 async function updateCategoryById(id, newName) {
     try {
-        const result = await pool.query("UPDATE categories SET name=$1 WHERE id=$2" , [newName, id]);
+        const result = await pool.query("UPDATE categories SET name=$1 WHERE id=$2", [newName, id]);
 
         if (result.rowCount > 0) {
             console.log('Insert successful!');
@@ -62,7 +62,8 @@ async function queryAllProductsFromCategoryId(id) {
     return rows;
 }
 
-async function insertNewProduct(name, price, amount, category) {
+async function insertNewProduct(id, name, price, amount, category) {
+    console.log([id, name, price, amount, category])
     try {
         const result = await pool.query("INSERT INTO products (name, price, amount, category_ID) VALUES ($1, $2, $3, $4)", [name, price, amount, category]);
 
@@ -73,6 +74,20 @@ async function insertNewProduct(name, price, amount, category) {
         }
     } catch (error) {
         console.error('Insert failed due to database error:', error.message);
+    }
+}
+
+async function updateProductById(id, newName, newPrice, newAmount, newCategoryId) {
+    try {
+        const result = await pool.query("UPDATE products SET name=$1, price=$2, amount=$3, category_id=$4 WHERE id=$5", [newName, newPrice, newAmount, newCategoryId, id]);
+
+        if (result.rowCount > 0) {
+            console.log('Update successful!');
+        } else {
+            console.log('Query finished, but no rows were updated.');
+        }
+    } catch (error) {
+        console.error('Update failed due to database error:', error.message);
     }
 }
 
@@ -100,5 +115,6 @@ export {
     insertNewProduct,
     deleteProductById,
     queryAllProductsWithCategories,
-    insertNewCategory
+    insertNewCategory,
+    updateProductById
 }

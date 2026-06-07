@@ -18,78 +18,165 @@
             <p>Adm pass-key:</p>
             <input form="adm-actions" type="text" name="passKey">
         </div>
-        <div class="new-form-container">
-            <p>Add new Product</p>
-            <form action="/products/add-product" method="POST">
-                <label for="name">Product name</label>
-                <input type="text" name="name" id="name">
+        <% if(locals.recoveredInsertValues) {%>
+            <%- include("partials/errors.ejs") %>
+                <% } %>
+                    <div class="new-form-container">
+                        <p>Add new Product</p>
+                        <form id="insertProduct" action="/products/add-product" method="POST">
+                            <label for="name">Product name</label>
+                            <input type="text" name="name" id="name">
 
-                <label for="price">Price</label>
-                <input type="text" name="price" id="price">
+                            <label for="price">Price</label>
+                            <input type="text" name="price" id="price">
 
-                <label for="amount">Amount</label>
-                <input type="text" name="amount" id="amount">
+                            <label for="amount">Amount</label>
+                            <input type="text" name="amount" id="amount">
 
-                <label for="category">Category</label>
-                <select id="category" name="category">
-                    <% categories.map((category)=> { %>
-                        <option value="<%=category.id %>">
-                            <%=category.name %>
-                        </option>
-                        <% }) %>
-                </select>
-                <input type="submit" value="Add">
-            </form>
-        </div>
-        <table>
-            <caption>
-                Items list
-            </caption>
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Amount</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-
-
-                <% products.map((product)=> { %>
-
-                    <tr>
-                        <td>
-                            <%= product.id %>
-                        </td>
-                        <td>
-                            <%= product.name %>
-                        </td>
-                        <td>
-                            <%= product.price %>
-                        </td>
-                        <td>
-                            <%= product.amount %>
-                        </td>
-                        <td>
-                            <%= product.category_id %> - <%= product.categoryname %>
-                        </td>
-                        <td>
-                            <form id="adm-actions" action="/product/remove/<%= product.id %>" method="POST">
-                                <input type="submit" value="Delete">
-                            </form>
-                        </td>
-                    </tr>
-
-                    <% }) %>
-            </tbody>
-        </table>
+                            <label for="category">Category</label>
+                            <select id="category" name="category">
+                                <% categories.map((category)=> { %>
+                                    <option value="<%=category.id %>">
+                                        <%=category.name %>
+                                    </option>
+                                    <% }) %>
+                            </select>
+                            <input type="submit" value="Add">
+                        </form>
+                    </div>
+                    <table>
+                        <caption>
+                            Items list
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
 
-        <script>
-        </script>
+                            <% products.map((product)=> { %>
+
+                                <tr>
+                                    <td>
+                                        <%= product.id %>
+                                    </td>
+                                    <td>
+                                        <%= product.name %>
+                                    </td>
+                                    <td>
+                                        <%= product.price %>
+                                    </td>
+                                    <td>
+                                        <%= product.amount %>
+                                    </td>
+                                    <td>
+                                        <%= product.category_id %> - <%= product.categoryname %>
+                                    </td>
+                                    <td>
+                                        <div class="tb-actions">
+                                            <form id="adm-actions" action="/product/remove/<%= product.id %>"
+                                                method="POST">
+                                                <input type="submit" value="Delete">
+                                            </form>
+                                            <button data-id="<%= product.id%>" data-name="<%= product.name%>"
+                                                data-amount="<%= product.amount%>" data-price="<%= product.price%>"
+                                                data-category="<%= product.category_id%>"
+                                                onclick="showDialog(this.dataset.id, this.dataset.name, this.dataset.amount, this.dataset.price, this.dataset.category)">Update</button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <% }) %>
+                        </tbody>
+                    </table>
+
+                    <dialog id="update-product-dialog">
+                        <% if(locals.recoveredValues) { %>
+                            <%- include("partials/errors.ejs") %>
+                                <% } %>
+                                    <form id="updateProduct" method="POST">
+                                        <label for="name">Product Name</label>
+                                        <input id="name" name="name" type="text">
+
+                                        <label for="price">Price</label>
+                                        <input id="price" name="price" type="text">
+
+                                        <label for="amount">Amount</label>
+                                        <input id="amount" name="amount" type="text">
+
+                                        <label for="category">Category Id</label>
+                                        <select id="category" name="category">
+                                            <% categories.map((category)=> { %>
+                                                <option value="<%=category.id %>">
+                                                    <%=category.name %>
+                                                </option>
+                                                <% }) %>
+                                        </select>
+
+                                        <input form="updateProduct" type="submit" value="Save">
+                                    </form>
+                                    <button onclick="closeDialog()">Close</button>
+                    </dialog>
+
+
+                    <script>
+                        const myFormDialog = document.getElementById('update-product-dialog');
+                        const insertForm = document.getElementById('insertProduct');
+                        const updateForm = document.getElementById('updateProduct');
+                        const name = myFormDialog.querySelector("#name");
+                        let recoveredFromUpdate = null;
+                        let recoveredFromInsert = null;
+
+                        recoveredFromUpdate = '<%- locals.recoveredValues %>'
+                        recoveredFromInsert = '<%- locals.recoveredInsertValues %>'
+                        if (recoveredFromUpdate) {
+                            recoveredFromUpdate = JSON.parse(recoveredFromUpdate);
+                            updateForm.action = "/products/update/" + recoveredFromUpdate.id;
+                            updateForm.children[1].value = recoveredFromUpdate.name;
+                            updateForm.children[3].value = recoveredFromUpdate.price;
+                            updateForm.children[5].value = recoveredFromUpdate.amount;
+                            setSelectedValue(updateForm.children[7], recoveredFromUpdate.category);
+                            myFormDialog.showModal();
+                        }
+
+                        if (recoveredFromInsert) {
+                            recoveredFromInsert = JSON.parse(recoveredFromInsert);
+                            insertForm.action = "/products/add-product/";
+                            insertForm.children[1].value = recoveredFromInsert.name;
+                            insertForm.children[3].value = recoveredFromInsert.price;
+                            insertForm.children[5].value = recoveredFromInsert.amount;
+                            setSelectedValue(insertForm.children[7], recoveredFromInsert.category);
+                        }
+
+                        function closeDialog() {
+                            myFormDialog.close();
+                        }
+
+                        function showDialog(id, name, amount, price, category) {
+                            updateForm.action = "/products/update/" + id;
+                            updateForm.children[1].value = name;
+                            updateForm.children[3].value = amount;
+                            updateForm.children[5].value = price;
+                            setSelectedValue(updateForm.children[7], category);
+                            myFormDialog.showModal();
+                        }
+
+                        function setSelectedValue(selectObj, valueToSet) {
+                            for (var i = 0; i < selectObj.options.length; i++) {
+                                if (selectObj.options[i].value == valueToSet) {
+                                    selectObj.options[i].selected = true;
+                                    return;
+                                }
+                            }
+                        }
+                    </script>
 </body>
 
 </html>
