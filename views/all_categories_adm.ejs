@@ -14,10 +14,19 @@
 
 <body>
     <%- include("partials/header.ejs") %>
-    <div class="adm-input">
-        <p>Adm pass-key:</p>
-        <input form="adm-actions" type="text" name="passKey">
-    </div>
+        <div class="adm-input">
+            <p>Adm pass-key:</p>
+            <input form="adm-actions" type="text" name="passKey">
+        </div>
+        <div class="new-form-container">
+            <p>Add new Category</p>
+            <form action="/categories/add-category" method="POST">
+                <label for="name">Category name</label>
+                <input type="text" name="name" id="name">
+
+                <input type="submit" value="Add">
+            </form>
+        </div>
         <table>
             <caption>
                 Categories list

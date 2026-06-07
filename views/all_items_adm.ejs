@@ -14,10 +14,33 @@
 
 <body>
     <%- include("partials/header.ejs") %>
-    <div class="adm-input">
-        <p>Adm pass-key:</p>
-        <input form="adm-actions" type="text" name="passKey">
-    </div>
+        <div class="adm-input">
+            <p>Adm pass-key:</p>
+            <input form="adm-actions" type="text" name="passKey">
+        </div>
+        <div class="new-form-container">
+            <p>Add new Product</p>
+            <form action="/products/add-product" method="POST">
+                <label for="name">Product name</label>
+                <input type="text" name="name" id="name">
+
+                <label for="price">Price</label>
+                <input type="text" name="price" id="price">
+
+                <label for="amount">Amount</label>
+                <input type="text" name="amount" id="amount">
+
+                <label for="category">Category</label>
+                <select id="category" name="category">
+                    <% categories.map((category)=> { %>
+                        <option value="<%=category.id %>">
+                            <%=category.name %>
+                        </option>
+                        <% }) %>
+                </select>
+                <input type="submit" value="Add">
+            </form>
+        </div>
         <table>
             <caption>
                 Items list

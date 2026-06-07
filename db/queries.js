@@ -5,6 +5,20 @@ async function queryAllCategories() {
     return rows;
 }
 
+async function insertNewCategory(name) {
+    try {
+        const result = await pool.query("INSERT INTO categories (name) VALUES ($1)", [name]);
+
+        if (result.rowCount > 0) {
+            console.log('Insert successful!');
+        } else {
+            console.log('Query finished, but no rows were inserted.');
+        }
+    } catch (error) {
+        console.error('Insert failed due to database error:', error.message);
+    }
+}
+
 async function deleteCategoryById(id) {
     try {
         const result = await pool.query("DELETE FROM categories WHERE id=$1", [id]);
@@ -71,4 +85,5 @@ export {
     insertNewProduct,
     deleteProductById,
     queryAllProductsWithCategories,
+    insertNewCategory
 }

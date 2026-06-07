@@ -21,9 +21,8 @@ async function addNewProductGet(req, res) {
 }
 
 async function addNewProductPost(req, res) {
-    console.log("here", req.body)
     await insertNewProduct(req.body.name, req.body.price, req.body.amount, req.body.category);
-    res.redirect("/products/add-product");
+    res.redirect("/adm/products");
 }
 
 async function removeProductById(req, res) {
