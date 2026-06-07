@@ -3,34 +3,45 @@
         <p>Compiltah Shop</p>
     </a>
     <div class="categories-container">
-        <% categories.map((category)=> { %>
 
-            <a href="/products/<%-category.id%>">
-                <div id=<%=category.id %> class="category-item">
-                    <%= category.name %>
-                </div>
-            </a>
-            <% }) %>
-                <div class="dropdown">
-                    <button class="dropbtn" onclick="myFunction()">Adm Section
-                        <span>▼</span>
-                    </button>
-                    <div class="dropdown-content" id="myDropdown">
-                        <a href="/adm/categories">Categories</a>
-                        <a href="/adm/products">Products</a>
-                    </div>
-                </div>
+
+        <div class="dropdown">
+            <button class="dropbtn" onclick="openDropdown(event)">All categories ▼
+            </button>
+            <div class="dropdown-content" id="myDropdown">
+                <% categories.map((category)=> { %>
+                    <a href="/products/<%-category.id%>">
+                        <%= category.name %>
+                    </a>
+                    <% }) %>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropbtn" onclick="openDropdown(event)">Adm Section ▼
+            </button>
+            <div class="dropdown-content" id="myDropdown">
+                <a href="/adm/categories">Categories</a>
+                <a href="/adm/products">Products</a>
+            </div>
+        </div>
     </div>
     <script>
-        function myFunction() {
-            document.getElementById("myDropdown").classList.toggle("show");
+        let opened = null;
+        function openDropdown(event) {
+            if (opened != null)
+                opened.parentElement.children[1].classList.remove("show");
+            opened = event.target;
+            event.target.parentElement.children[1].classList.toggle("show");
         }
 
         window.onclick = function (e) {
             if (!e.target.matches('.dropbtn')) {
-                var myDropdown = document.getElementById("myDropdown");
-                if (myDropdown.classList.contains('show')) {
-                    myDropdown.classList.remove('show');
+                if (opened != null) {
+                    var myDropdown = opened.parentElement.children[1];
+                    if (myDropdown.classList.contains('show')) {
+                        myDropdown.classList.remove('show');
+                    }
+                    opened = null;
                 }
             }
         }
