@@ -15,7 +15,6 @@ async function getAllCategories(req, res) {
 
 const removeCategoryById = [validateAdmActions,
     async (req, res) => {
-        console.log(req.body)
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).render("all_categories_adm", {
@@ -41,12 +40,6 @@ const removeCategoryById = [validateAdmActions,
     }
 ]
 
-// async function removeCategoryById(req, res) {
-//     console.log("delete", req.body)
-//     await deleteCategoryById(req.params.id)
-//     res.redirect("/adm/categories");
-// }
-
 const addNewCategoryPost = [validateNewCategory,
     async (req, res) => {
         const errors = validationResult(req);
@@ -68,7 +61,6 @@ const updateCategoryByIdPost = [validateNewCategory, validateAdmActions,
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            console.log({ id: req.params.id, value: req.body.name })
             return res.status(400).render("all_categories_adm", {
                 recoveredValues: JSON.stringify({ id: req.params.id, value: req.body.name }),
                 categories: await queryAllCategories(),
@@ -82,17 +74,6 @@ const updateCategoryByIdPost = [validateNewCategory, validateAdmActions,
         res.redirect("/adm/categories");
     }
 ];
-
-// async function updateCategoryByIdPost(req, res) {
-//     console.log(req.params.id, req.body.name)
-//     await updateCategoryById(req.params.id, req.body.name);
-//     res.redirect("/adm/categories");
-// }
-
-// async function addNewCategoryPost(req, res) {
-//     await insertNewCategory(req.body.name);
-//     res.redirect("/adm/categories");
-// }
 
 export {
     getAllCategories,
