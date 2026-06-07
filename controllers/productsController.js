@@ -20,7 +20,7 @@ async function buildMainPage(req, res) {
 
 async function getProductsFromCategory(req, res) {
     const [categories, products] = await Promise.all([queryAllCategories(), queryAllProductsFromCategoryId(req.params.id)]);
-    res.render("products_list", { categories: categories, products: products });
+    res.render("index", { categories: categories, products: products });
 }
 
 async function addNewProductGet(req, res) {
