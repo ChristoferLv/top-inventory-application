@@ -69,6 +69,10 @@ npm run dev
 - PostgreSQL
 - express-validator
 
+## Visualization
+
+<img width="1910" height="915" alt="inventory_aplication_screenshot" src="https://github.com/user-attachments/assets/364d349f-1c8e-4bef-b37b-86d7c6a4e7d7" />
+
 ---
 
 Project developed following: [The Odin Project - Inventory Application](https://www.theodinproject.com/lessons/node-path-nodejs-inventory-application)
